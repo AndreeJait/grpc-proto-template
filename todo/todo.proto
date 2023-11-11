@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package todo;
+option go_package = "./todo";
+
+message Empty {}
+
+message ToDo {
+  int64 id = 1;
+  string title = 2;
+  string content = 3;
+  string date_at = 4;
+  string time_at = 5;
+}
+
+message ToDoRequest {
+  string title = 1;
+  string content = 2;
+  string date_at = 3;
+  string time_at = 4;
+}
+
+message ToDoResponse {
+  repeated ToDo todos = 1;
+}
+
+message GetAllToDoRequest {
+  message Filter {
+    int64 page = 1;
+    int64 last_id = 2;
+    string title = 3;
+  }
+  Filter filter = 1;
+}
+
+message GetTodoRequest {
+  int64 todo_id = 1;
+}
+
+service TodoService  {
+  rpc GetAllToDo(GetAllToDoRequest) returns (ToDoRequest) {}
+  rpc DoAddTodo(ToDoRequest) returns (Empty){}
+  rpc GetToDo(GetTodoRequest) returns (ToDo){}
+}
