@@ -63,16 +63,15 @@ func (c *todoServiceClient) GetToDo(ctx context.Context, in *GetTodoRequest, opt
 }
 
 // TodoServiceServer is the server API for TodoService service.
-// All implementations must embed UnimplementedTodoServiceServer
+// All implementations should embed UnimplementedTodoServiceServer
 // for forward compatibility
 type TodoServiceServer interface {
 	GetAllToDo(context.Context, *GetAllToDoRequest) (*ToDoResponse, error)
 	DoAddTodo(context.Context, *ToDoRequest) (*Empty, error)
 	GetToDo(context.Context, *GetTodoRequest) (*ToDo, error)
-	mustEmbedUnimplementedTodoServiceServer()
 }
 
-// UnimplementedTodoServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedTodoServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedTodoServiceServer struct {
 }
 
@@ -85,7 +84,6 @@ func (UnimplementedTodoServiceServer) DoAddTodo(context.Context, *ToDoRequest) (
 func (UnimplementedTodoServiceServer) GetToDo(context.Context, *GetTodoRequest) (*ToDo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetToDo not implemented")
 }
-func (UnimplementedTodoServiceServer) mustEmbedUnimplementedTodoServiceServer() {}
 
 // UnsafeTodoServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to TodoServiceServer will
