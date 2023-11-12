@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TodoServiceClient interface {
-	GetAllToDo(ctx context.Context, in *GetAllToDoRequest, opts ...grpc.CallOption) (*ToDoRequest, error)
+	GetAllToDo(ctx context.Context, in *GetAllToDoRequest, opts ...grpc.CallOption) (*ToDoResponse, error)
 	DoAddTodo(ctx context.Context, in *ToDoRequest, opts ...grpc.CallOption) (*Empty, error)
 	GetToDo(ctx context.Context, in *GetTodoRequest, opts ...grpc.CallOption) (*ToDo, error)
 }
@@ -35,8 +35,8 @@ func NewTodoServiceClient(cc grpc.ClientConnInterface) TodoServiceClient {
 	return &todoServiceClient{cc}
 }
 
-func (c *todoServiceClient) GetAllToDo(ctx context.Context, in *GetAllToDoRequest, opts ...grpc.CallOption) (*ToDoRequest, error) {
-	out := new(ToDoRequest)
+func (c *todoServiceClient) GetAllToDo(ctx context.Context, in *GetAllToDoRequest, opts ...grpc.CallOption) (*ToDoResponse, error) {
+	out := new(ToDoResponse)
 	err := c.cc.Invoke(ctx, "/todo.TodoService/GetAllToDo", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (c *todoServiceClient) GetToDo(ctx context.Context, in *GetTodoRequest, opt
 // All implementations must embed UnimplementedTodoServiceServer
 // for forward compatibility
 type TodoServiceServer interface {
-	GetAllToDo(context.Context, *GetAllToDoRequest) (*ToDoRequest, error)
+	GetAllToDo(context.Context, *GetAllToDoRequest) (*ToDoResponse, error)
 	DoAddTodo(context.Context, *ToDoRequest) (*Empty, error)
 	GetToDo(context.Context, *GetTodoRequest) (*ToDo, error)
 	mustEmbedUnimplementedTodoServiceServer()
@@ -76,7 +76,7 @@ type TodoServiceServer interface {
 type UnimplementedTodoServiceServer struct {
 }
 
-func (UnimplementedTodoServiceServer) GetAllToDo(context.Context, *GetAllToDoRequest) (*ToDoRequest, error) {
+func (UnimplementedTodoServiceServer) GetAllToDo(context.Context, *GetAllToDoRequest) (*ToDoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllToDo not implemented")
 }
 func (UnimplementedTodoServiceServer) DoAddTodo(context.Context, *ToDoRequest) (*Empty, error) {

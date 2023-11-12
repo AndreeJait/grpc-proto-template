@@ -38,7 +38,7 @@ message GetTodoRequest {
 }
 
 service TodoService  {
-  rpc GetAllToDo(GetAllToDoRequest) returns (ToDoRequest) {}
+  rpc GetAllToDo(GetAllToDoRequest) returns (ToDoResponse) {}
   rpc DoAddTodo(ToDoRequest) returns (Empty){}
   rpc GetToDo(GetTodoRequest) returns (ToDo){}
 }
